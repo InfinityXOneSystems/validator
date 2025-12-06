@@ -10,7 +10,9 @@
     "lint": "echo 'Linting passed'",
     "example:mvp": "node examples/mvp-validation.js",
     "example:production": "node examples/production-validation.js",
-    "example:enterprise": "node examples/enterprise-validation.js"
+    "example:enterprise": "node examples/enterprise-validation.js",
+    "example:custom": "node examples/custom-validation.js",
+    "example:failing": "node examples/failing-validation.js"
   },
   "keywords": [
     "validator",
