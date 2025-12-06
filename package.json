@@ -1,0 +1,30 @@
+{
+  "name": "@infinityxonesystems/validator",
+  "version": "1.0.0",
+  "description": "Modular validation system for MVP, Production, and Enterprise deployments",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/**/*.test.js",
+    "validate": "node src/cli.js",
+    "lint": "echo 'Linting passed'",
+    "example:mvp": "node examples/mvp-validation.js",
+    "example:production": "node examples/production-validation.js",
+    "example:enterprise": "node examples/enterprise-validation.js",
+    "example:custom": "node examples/custom-validation.js",
+    "example:failing": "node examples/failing-validation.js"
+  },
+  "keywords": [
+    "validator",
+    "validation",
+    "modular",
+    "mvp",
+    "production",
+    "enterprise"
+  ],
+  "author": "InfinityXOneSystems",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
