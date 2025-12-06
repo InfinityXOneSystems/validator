@@ -14,8 +14,10 @@ export class SecurityValidator extends Validator {
     const issues = [];
 
     // Check HTTPS requirement
-    if (this.requireHttps && context.protocol === 'http') {
-      issues.push('HTTPS is required but HTTP protocol detected');
+    if (this.requireHttps && context.protocol) {
+      if (context.protocol === 'http') {
+        issues.push('HTTPS is required but HTTP protocol detected');
+      }
     }
 
     // Check for vulnerable dependencies

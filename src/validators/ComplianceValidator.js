@@ -19,9 +19,15 @@ export class ComplianceValidator extends Validator {
     }
 
     // Check compliance with specific standards
-    for (const standard of this.standards) {
-      if (context.standards && !context.standards.includes(standard)) {
-        issues.push(`Non-compliant with ${standard} standard`);
+    if (this.standards.length > 0) {
+      if (!context.standards || context.standards.length === 0) {
+        issues.push(`Compliance standards not defined (required: ${this.standards.join(', ')})`);
+      } else {
+        for (const standard of this.standards) {
+          if (!context.standards.includes(standard)) {
+            issues.push(`Non-compliant with ${standard} standard`);
+          }
+        }
       }
     }
 
