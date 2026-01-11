@@ -1,4 +1,9 @@
-﻿param(
+﻿# Script: platform-validator.ps1
+# Description: Validates Python files, patches FastAPI health endpoints, and manages directory structure.
+# Author: InfinityXOneSystems
+# Date: 2026-01-11
+
+param(
     [ValidateSet("validate","patch","heal","full")]
     [string]$Mode = "full"
 )
@@ -9,10 +14,10 @@ $ErrorActionPreference = "Continue"
 $ROOT = Split-Path -Parent $MyInvocation.MyCommand.Definition
 Set-Location $ROOT
 
-$STATE_DIR      = "$ROOT\.infinity"
-$REPORT_DIR     = "$STATE_DIR\reports"
-$QUARANTINE_DIR = "$STATE_DIR\quarantine"
-$LOG_FILE       = "$STATE_DIR\validator.log"
+$STATE_DIR      = Join-Path $ROOT ".infinity"
+$REPORT_DIR     = Join-Path $STATE_DIR "reports"
+$QUARANTINE_DIR = Join-Path $STATE_DIR "quarantine"
+$LOG_FILE       = Join-Path $STATE_DIR "validator.log"
 $TIMESTAMP      = Get-Date -Format "yyyyMMdd-HHmmss"
 
 New-Item -ItemType Directory -Force $STATE_DIR      | Out-Null
@@ -37,7 +42,7 @@ Get-ChildItem -Recurse -Filter *.py | ForEach-Object {
     if ($LASTEXITCODE -ne 0) {
         $RESULT.python_errors += @{ file=$_.FullName; error=($out -join "`n") }
         if ($Mode -in @("heal","full")) {
-            Move-Item $_.FullName "$QUARANTINE_DIR\$($_.Name)" -Force
+            Move-Item $_.FullName (Join-Path $QUARANTINE_DIR $_.Name) -Force
             $RESULT.healed += "Quarantined: $($_.FullName)"
         }
     }
@@ -69,4 +74,4 @@ if ($Mode -in @("heal","full")) {
 }
 
 $RESULT | ConvertTo-Json -Depth 12 |
-  Out-File "$REPORT_DIR\report-$TIMESTAMP.json" -Encoding utf8
+  Out-File (Join-Path $REPORT_DIR "report-$TIMESTAMP.json") -Encoding utf8
